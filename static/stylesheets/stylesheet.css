@@ -395,8 +395,8 @@ a {
   .project-overlay {
     grid-area: description;
     opacity: 100;
-    background-color: white;
     background-image: none !important;
+    background-color: white;
     color: black;
   }
 }
