@@ -1,0 +1,31 @@
+<html>
+  <head>
+    <link rel="stylesheet" type="text/css" href="../../stylesheets/project-stylesheet.css" media="screen" />
+    <title>Matthew Barulic - {{ .Title }}</title>
+  </head>
+    
+  <body>
+    <header>
+      <div class="navigation">
+        <a class="navigation" href="../../">Portfolio Home</a>
+        <a class="social-links-item github-icon" href="http://www.github.com/barulicm" title="Github" ></a>
+        <a class="social-links-item twitter-icon" href="http://twitter.com/mattbarulic" title="Twitter" ></a>
+        <a class="social-links-item youtube-icon" href="https://www.youtube.com/user/mattsrobots" title="Youtube" ></a>
+      </div>
+      {{ if eq .Section "personal" }}
+      <div class="personal-bgcolor project-page-section-header">Personal Project</div>
+      {{ else if eq .Section "community" }}
+      <div class="community-bgcolor project-page-section-header">Community Project</div>
+      {{ else if eq .Section "professional" }}
+      <div class="professional-bgcolor project-page-section-header">Professional Project</div>
+      {{ end }}
+      <div class="topimage" style="height: 120px;">
+          <img src="{{ .Params.topImage }}" id="welcomeimg" />
+      </div>
+    </header>
+        <div class="content">
+          <h2 style="text-align: center">{{ .Title }}</h2>
+          {{ .Content }}
+        </div>
+  </body>
+</html>

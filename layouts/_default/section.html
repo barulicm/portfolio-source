@@ -1,0 +1,74 @@
+<html>
+  <head>
+    <meta name="viewport" content="initial-scale=1">
+    <link rel="stylesheet" type="text/css" href="../stylesheets/stylesheet.css" media="screen" />
+    <script src="https://unpkg.com/colcade@0/colcade.js"></script>
+    <title>Matthew Barulic - {{ .Section }} projects</title>
+  </head>
+
+  <body>
+    <div class="header">
+      <div class="section-header-bar">
+        <a href="../"><img src="../images/logo.png"/></a>
+      </div>
+      {{ if eq .Section "personal" }}
+      <div class="section-title-bar personal-bgcolor"> Personal Projects </div>
+      {{ else if eq .Section "professional" }}
+      <div class="section-title-bar professional-bgcolor"> Professional Projects </div>
+      {{ else if eq .Section "community" }}
+      <div class="section-title-bar community-bgcolor"> Community Projects </div>
+      {{ end }}
+      
+    </div>
+    
+    <div class="grid" data-colcade="columns: .grid-col, items: .grid-item">
+      <!-- columns -->
+      <div class="grid-col grid-col--1"></div>
+      <div class="grid-col grid-col--2"></div>
+      <div class="grid-col grid-col--3"></div>
+      <div class="grid-col grid-col--4"></div>
+      <div class="grid-col grid-col--5"></div>
+      <!-- items -->
+      
+      {{ range where (.Pages.ByParam "sortYear").Reverse "Section" .Section}}
+      <div class="grid-item">
+        {{ if .Params.destination }}
+        <a href="{{ .Params.destination }}">
+        {{ else }}
+        <a href="{{ .RelPermalink }}">
+        {{ end }}
+          <div class="project-item">
+            <img class="project-image" src="../{{ .Params.tileImage }}"/>
+            {{ if eq .Section "personal" }}
+            <div class="project-overlay personal-bgcolor">
+            {{ else if eq .Section "community" }}
+            <div class="project-overlay community-bgcolor">
+            {{ else if eq .Section "professional" }}
+            <div class="project-overlay professional-bgcolor">
+            {{ else }}
+            <div class="project-overlay">
+            {{ end }}
+              <div class="project-description">
+                {{ .Params.summary }}
+              </div>
+            </div>
+            {{ if eq .Section "personal" }}
+            <div class="category-color-bar personal-bgcolor"></div>
+            {{ else if eq .Section "community" }}
+            <div class="category-color-bar community-bgcolor"></div>
+            {{ else if eq .Section "professional" }}
+            <div class="category-color-bar professional-bgcolor"></div>
+            {{ end }}
+            <div class="project-title">
+              <h4>{{ .Title }}</h4>
+              <i>{{ .Params.year }}</i><br/>
+            </div>
+          </div>
+        </a>
+      </div>
+      {{ end }}
+            
+    </div>
+  
+  </body>
+</html>

@@ -1,0 +1,401 @@
+html {
+  background-color:#FEFEFE;
+}
+
+body {
+  margin: 0;
+  font-family: "Helvetica";
+}
+
+header {
+  width:700px;
+  margin-left:auto;
+  margin-right:auto;
+}
+
+.social-links {
+  text-decoration:none;
+  text-align: center;
+  margin-top: 30px;
+  margin-bottom: 10px;
+}
+
+.header>.section-header-bar>a>img {
+/*  float: left;*/
+  height: 60px;
+}
+
+.header>.section-title-bar {
+  line-height: 60px;
+  font-size: 28px;
+  font-weight: bold;
+  color: white;
+}
+
+.header>.section-header-bar {
+  background-color: dimgray;
+  height: 60px;
+  padding: 10px;
+}
+
+.social-links-item {
+  display: inline-block;
+  height:44px;
+  width:44px;
+  margin: 0;
+  margin-left: 15px;
+  margin-right: 15px;
+  opacity: 0.5;
+}
+
+.social-links-item:hover {
+  opacity: 1.0;
+}
+
+.github-icon {
+  background: url(../images/social/github.svg) no-repeat center;
+  background-size: cover;
+}
+
+.twitter-icon {
+  background: url(../images/social/twitter.svg) no-repeat center;
+  background-size: cover;
+}
+
+.youtube-icon {
+  background: url(../images/social/youtube.svg) no-repeat center;
+  background-size: cover;
+}
+
+.project-image {
+  display:block;
+  width:100%;
+  margin: 0;
+  grid-area: image;
+  z-index: 1;
+}
+
+.project-title {
+  margin: 0;
+  padding: 5px;
+  text-align: center;
+  grid-area: title;
+}
+
+.project-title h4 {
+  margin: 0;
+}
+
+.project-overlay {
+  display: block;
+  
+  height: 100%;
+  color: white;
+  text-align: center;
+  grid-area: image;
+  z-index: 2;
+  opacity: 0;
+}
+
+.project-description {
+  text-align: center;
+  position: relative;
+  float: left;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  width: 90%;
+  font-size: 22px;
+}
+
+.project-item {
+  display: grid;
+  grid-template-rows: auto;
+  grid-template-columns: 100%;
+  grid-template-areas:
+    "image"
+    "colorbar"
+    "title";
+  
+  margin: 20px 0px;
+  width: 100%;
+  border-color:#eee;
+  border-width:1px;
+  border-style:solid;
+}
+
+.project-item:hover, .project-item:active {
+  box-shadow: 5px 5px 5px #aaa;
+}
+
+.project-item:hover .project-overlay {
+  opacity: 1.0;
+}
+
+a {
+  color: black;
+  text-decoration: none;
+}
+
+.header {
+  grid-area: header;
+  position: relative;
+  text-align: center;
+}
+
+.hero-block {
+  position: relative;
+  overflow: hidden;
+  width: 100%;
+  height: 400px;
+  background-color: black;
+}
+
+.hero-image {
+  object-fit: cover;
+  overflow: hidden;
+  height: 100%;
+  width: 100%;
+  max-width: 1080px; /*Set this to the source width of the image*/
+}
+
+.logo {
+  position: absolute;
+  left: 50%;
+  bottom: 20%;
+  transform: translateX(-50%);
+  max-width: 500px;
+  width: 66%;
+}
+
+.introduction h1 {
+  margin: 0;
+  padding: 0;
+}
+
+.introduction h2 {
+  margin: 0;
+  padding: 0;
+}
+
+.project-category-header {
+  font-family:"Helvetica";
+  color: #666666;
+  text-align: center;
+}
+
+.project-container {
+  display: flex;
+  flex-flow: row wrap;
+  justify-content: space-around;
+  align-items: flex-end;
+}
+
+.category-color-bar {
+  grid-area: colorbar;
+  display: inline-block;
+  height: 5px;
+  width: 100%;
+}
+
+.category-color-bar.personal-bgcolor {
+  background-color: #7189bf;
+}
+
+.category-color-bar.community-bgcolor {
+  background-color: #72d6c9;
+}
+
+.category-color-bar.professional-bgcolor {
+  background-color: #df7599;
+}
+
+.section-title-bar.personal-bgcolor {
+  background-color: #7189bf;
+}
+
+.section-title-bar.community-bgcolor {
+  background-color: #72d6c9;
+}
+
+.section-title-bar.professional-bgcolor {
+  background-color: #df7599;
+}
+
+.project-overlay.personal-bgcolor {
+  background-image: linear-gradient(#7189bfDD, #7189bfFF);
+}
+
+.project-overlay.community-bgcolor {
+  background-image: linear-gradient(#72d6c9DD, #72d6c9FF);
+}
+
+.project-overlay.professional-bgcolor {
+  background-image: linear-gradient(#df7599DD, #df7599FF);
+}
+
+.personal-color {
+  color: #7189bf;
+}
+
+.professional-color {
+  color: #df7599;
+}
+
+.community-color {
+  color: #72d6c9;
+}
+
+.footer {
+  position: fixed; 
+  bottom: 0;
+  left: 0;
+  right: 0;
+  line-height: 45px;
+  width: 100%;
+  color: white;
+  background-color: dimgray;
+  text-align: center;
+  font-size: 28px;
+  z-index: 100;
+}
+
+.footer a {
+  text-decoration: none;
+  color: inherit;
+}
+
+.footer a:hover {
+  font-weight: bold;
+}
+
+.footer-grid {
+  display: grid;
+  grid-template-columns: auto 300px 300px 300px auto;
+  grid-template-rows: auto;
+  grid-template-areas:
+    ". personal professional community ."
+}
+
+@media screen and ( max-width: 900px ) {
+  .footer-grid {
+    grid-template-columns: 100%;
+    grid-template-areas:
+      "personal" 
+      "professional"
+      "community"
+  }
+  
+  .footer {
+    line-height: 24px;
+    font-size: 18px;
+  }
+}
+
+.footer-grid>.personal-color {
+  grid-area: personal;
+}
+
+.footer-grid>.professional-color {
+  grid-area: professional;
+}
+
+.footer-grid>.community-color {
+  grid-area: community;
+}
+
+.grid-col {
+  float: left;
+  width: 96%;
+  margin-bottom: 45px;
+}
+
+.grid-col--1 {
+  margin-left: 2%;
+  margin-right: 2%;
+}
+
+.grid-col--2, .grid-col--3, .grid-col--4, .grid-col--5 {
+  display: none;
+  margin-right: 2%;
+}
+
+@media screen and ( min-width: 700px ) {
+  .grid-col { 
+    width: 47%; 
+  }
+  .grid-col--2 {
+    display: block;
+  }
+}
+
+@media screen and ( min-width: 1050px ) {
+  .grid-col { 
+    width: 30.666666667%; 
+  }
+  .grid-col--2 {
+    display: block;
+  }
+  .grid-col--3 {
+    display: block;
+  }
+}
+
+@media screen and ( min-width: 1400px ) {
+  .grid-col { 
+    width: 22.5%; 
+  }
+  .grid-col--2 {
+    display: block;
+  }
+  .grid-col--3 {
+    display: block;
+  }
+  .grid-col--4 {
+    display: block;
+  }
+}
+
+@media screen and ( min-width: 1750px ) {
+  .grid-col { 
+    width: 17.6%; 
+  }
+  .grid-col--2 {
+    display: block;
+  }
+  .grid-col--3 {
+    display: block;
+  }
+  .grid-col--4 {
+    display: block;
+  }
+  .grid-col--5 {
+    display: block;
+  }
+}
+
+@media (hover: none) {
+  .project-item {
+    display: grid;
+    grid-template-rows: auto;
+    grid-template-columns: 100%;
+    grid-template-areas:
+      "image"
+      "colorbar"
+      "title"
+      "description";
+
+    align-items: center;
+    width: 100%;
+    max-width: 400px;
+    
+    border-color:#aaa;
+  }
+  
+  .project-overlay {
+    grid-area: description;
+    opacity: 100;
+    background-color: white;
+    color: black;
+  }
+}

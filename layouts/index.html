@@ -1,0 +1,79 @@
+<html>
+  <head>
+    <meta name="viewport" content="initial-scale=1">
+    <link rel="stylesheet" type="text/css" href="stylesheets/stylesheet.css" media="screen" />
+    <script src="https://unpkg.com/colcade@0/colcade.js"></script>
+    <title>Matthew Barulic</title>
+  </head>
+
+  <body>
+    <div class="header">
+      <div class="hero-block">
+        <img class="hero-image" src="images/hero.jpg"/>
+        <img class="logo" src="images/logo.png"/>
+      </div>
+      <div class="social-links">
+        <a class="social-links-item github-icon" href="http://www.github.com/barulicm" title="Github" ></a>
+        <a class="social-links-item twitter-icon" href="http://twitter.com/mattbarulic" title="Twitter" ></a>
+        <a class="social-links-item youtube-icon" href="https://www.youtube.com/user/mattsrobots" title="Youtube" ></a>
+      </div>
+    </div>
+    <div class="grid" data-colcade="columns: .grid-col, items: .grid-item">
+      <!-- columns -->
+      <div class="grid-col grid-col--1"></div>
+      <div class="grid-col grid-col--2"></div>
+      <div class="grid-col grid-col--3"></div>
+      <div class="grid-col grid-col--4"></div>
+      <div class="grid-col grid-col--5"></div>
+      <!-- items -->
+      
+      {{ range (.Pages.ByParam "sortYear").Reverse }}
+      <div class="grid-item">
+        {{ if .Params.destination }}
+        <a href="{{ .Params.destination }}">
+        {{ else }}
+        <a href="{{ .RelPermalink }}">
+        {{ end }}
+          <div class="project-item">
+            <img class="project-image" src="{{ .Params.tileImage }}"/>
+            {{ if eq .Section "personal" }}
+            <div class="project-overlay personal-bgcolor">
+            {{ else if eq .Section "community" }}
+            <div class="project-overlay community-bgcolor">
+            {{ else if eq .Section "professional" }}
+            <div class="project-overlay professional-bgcolor">
+            {{ else }}
+            <div class="project-overlay">
+            {{ end }}
+              <div class="project-description">
+                {{ .Params.summary }}
+              </div>
+            </div>
+            {{ if eq .Section "personal" }}
+            <div class="category-color-bar personal-bgcolor"></div>
+            {{ else if eq .Section "community" }}
+            <div class="category-color-bar community-bgcolor"></div>
+            {{ else if eq .Section "professional" }}
+            <div class="category-color-bar professional-bgcolor"></div>
+            {{ end }}
+            <div class="project-title">
+              <h4>{{ .Title }}</h4>
+              <i>{{ .Params.year }}</i><br/>
+            </div>
+          </div>
+        </a>
+      </div>
+      {{ end }}
+            
+    </div>
+          
+    <div class="footer">
+      <div class="footer-grid">
+        <div class="personal-color"><a href="./personal/">Personal Projects</a></div>
+        <div class="professional-color"><a href="./professional/">Professional Projects</a></div>
+        <div class="community-color"><a href="./community/">Community Projects</a></div>
+      </div>
+    </div>
+  
+  </body>
+</html>
