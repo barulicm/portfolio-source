@@ -64,68 +64,53 @@ We're going to use three libraries in our code. OpenCV will help us process the 
 
 OpenCV is a great library, but it can be a bit tricky to install on the Pi. You'll find no shortage of tutorials on how to install it. Here are the commands I used to succesfully install OpenCV 3 on my Pi.
 
-<!-- HTML generated using hilite.me --><div style="background: #ffffff; overflow:auto;width:auto;border:solid gray;border-width:.1em .1em .1em .8em;padding:.2em .6em;"><table><tr><td><pre style="margin: 0; line-height: 125%"> 1
- 2
- 3
- 4
- 5
- 6
- 7
- 8
- 9
-10</pre></td><td><pre style="margin: 0; line-height: 125%"><span style="color: #888888">sudo apt update &amp;&amp; sudo apt upgrade</span>
-<span style="color: #888888">sudo apt install build-essential cmake pkg-config libjpeg-dev libtiff5-dev libjasper-dev libpng12-dev libavcodec-dev libavformat-dev libswscale-dev libv4l-dev libxvidcore-dev libx264-dev libgtk2.0-dev libgtk-3-dev libatlas-base-dev gfortran python2.7-dev python3-dev</span>
-<span style="color: #888888">cd ~</span>
-<span style="color: #888888">wget -O opencv.zip https://github.com/opencv/opencv/archive/4.0.1.zip</span>
-<span style="color: #888888">unzip opencv &amp;&amp; cd opencv</span>
-<span style="color: #888888">mkdir build &amp;&amp; cd build</span>
-<span style="color: #888888">cmake -DCMAKE_BUILD_TYPE=Release -DCMAKE_INSTALL_PREFIX=/usr/local ..</span>
-<span style="color: #888888">cmake --build . -- -j4</span>
-<span style="color: #888888">sudo cmake --build . --target install</span>
-<span style="color: #888888">sudo ldconfig</span>
-</pre></td></tr></table></div>
+{{< highlight bash "linenos=yes" >}}
+sudo apt update && sudo apt upgrade
+sudo apt install build-essential cmake pkg-config libjpeg-dev libtiff5-dev libjasper-dev libpng12-dev libavcodec-dev libavformat-dev libswscale-dev libv4l-dev libxvidcore-dev libx264-dev libgtk2.0-dev libgtk-3-dev libatlas-base-dev gfortran python2.7-dev python3-dev
+cd ~
+wget -O opencv.zip https://github.com/opencv/opencv/archive/4.0.1.zip
+unzip opencv && cd opencv
+mkdir build && cd build
+cmake -DCMAKE_BUILD_TYPE=Release -DCMAKE_INSTALL_PREFIX=/usr/local ..
+cmake --build . -- -j4
+sudo cmake --build . --target install
+sudo ldconfig
+{{< / highlight >}}
 
 If you're working in C++, you'll need raspicam to interact with the camera. You can install it with these commands:
 
-<!-- HTML generated using hilite.me --><div style="background: #ffffff; overflow:auto;width:auto;border:solid gray;border-width:.1em .1em .1em .8em;padding:.2em .6em;"><table><tr><td><pre style="margin: 0; line-height: 125%">1
-2
-3
-4
-5
-6</pre></td><td><pre style="margin: 0; line-height: 125%"><span style="color: #c65d09; font-weight: bold">#</span> Download raspicam-0.1.6.zip from https://sourceforge.net/projects/raspicam/files/
-<span style="color: #888888">unzip raspicam-0.1.6.zip &amp;&amp; cd raspicam-0.1.6</span>
-<span style="color: #888888">mkdir build &amp;&amp; cd build</span>
-<span style="color: #888888">cmake ..</span>
-<span style="color: #888888">cmake --build .</span>
-<span style="color: #888888">sudo cmake --build . --target install</span>
-</pre></td></tr></table></div>
+{{< highlight bash "linenos=yes" >}}
+# Download raspicam-0.1.6.zip from https://sourceforge.net/projects/raspicam/files/
+unzip raspicam-0.1.6.zip && cd raspicam-0.1.6
+mkdir build && cd build
+cmake ..
+cmake –build .
+sudo cmake –build . –target install
+{{< / highlight >}}
 
 Raspicam doesn't seem to install itself totally correctly, so if CMake complains that it can't find the raspicam_cv project when you're building your project, try pointing CMake at the raspicam build directory like this:
 
-<!-- HTML generated using hilite.me --><div style="background: #ffffff; overflow:auto;width:auto;border:solid gray;border-width:.1em .1em .1em .8em;padding:.2em .6em;"><pre style="margin: 0; line-height: 125%"><span style="color: #888888">cmake -Draspicam_DIR=/home/pi/raspicam-0.1.6/build/ ..</span>
-</pre></div>
+{{< highlight bash >}}
+cmake -Draspicam_DIR=/home/pi/raspicam-0.1.6/build/ ..
+{{< / highlight >}}
 
 If you're using Python, instead of getting raspicam, you'll need to get picamera. This can be done with the pip package manager:
 
-<!-- HTML generated using hilite.me --><div style="background: #ffffff; overflow:auto;width:auto;border:solid gray;border-width:.1em .1em .1em .8em;padding:.2em .6em;"><table><tr><td><pre style="margin: 0; line-height: 125%">1</pre></td><td><pre style="margin: 0; line-height: 125%"><span style="color: #888888">pip install picamera</span>
-</pre></td></tr></table></div>
+{{< highlight bash >}}
+pip install picamera
+{{< / highlight >}}
 
 Finally, install PiPCA9685 to get C++ and Python APIs for controlling our motors:
 
-<!-- HTML generated using hilite.me --><div style="background: #ffffff; overflow:auto;width:auto;border:solid gray;border-width:.1em .1em .1em .8em;padding:.2em .6em;"><table><tr><td><pre style="margin: 0; line-height: 125%">1
-2
-3
-4
-5
-6
-7</pre></td><td><pre style="margin: 0; line-height: 125%"><span style="color: #888888">git clone https://github.com/barulicm/PiPCA9685.git</span>
-<span style="color: #888888">cd PiPCA9685</span>
-<span style="color: #888888">mkdir build &amp;&amp; cd build</span>
-<span style="color: #888888">cmake ..</span>
-<span style="color: #888888">cmake --build . </span>
-<span style="color: #888888">sudo cmake --build . --target install</span>
-<span style="color: #888888">sudo cmake --build . --target python_install</span>
-</pre></td></tr></table></div>
+{{< highlight bash "linenos=yes" >}}
+git clone https://github.com/barulicm/PiPCA9685.git
+cd PiPCA9685
+mkdir build && cd build
+cmake ..
+cmake –build . 
+sudo cmake –build . –target install
+sudo cmake –build . –target python_install
+{{< / highlight >}}
 
 ![](../../images/projects/racecar_20.gif)
 
@@ -141,193 +126,125 @@ The overall structure of this code is a single loop which grabs the latest image
 
 For context, here's the entire main.cpp C++ example file.
 
-<!-- HTML generated using hilite.me --><div style="background: #ffffff; overflow:auto;width:auto;border:solid gray;border-width:.1em .1em .1em .8em;padding:.2em .6em;"><table><tr><td><pre style="margin: 0; line-height: 125%"> 1
- 2
- 3
- 4
- 5
- 6
- 7
- 8
- 9
-10
-11
-12
-13
-14
-15
-16
-17
-18
-19
-20
-21
-22
-23
-24
-25
-26
-27
-28
-29
-30
-31
-32
-33
-34
-35
-36
-37
-38
-39
-40
-41
-42
-43
-44
-45
-46
-47
-48
-49
-50
-51
-52
-53
-54
-55
-56
-57
-58
-59
-60
-61
-62
-63
-64
-65
-66
-67
-68
-69
-70
-71
-72</pre></td><td><pre style="margin: 0; line-height: 125%"><span style="color: #557799">#include &lt;iostream&gt;</span>
-<span style="color: #557799">#include &lt;opencv2/opencv.hpp&gt;</span>
-<span style="color: #557799">#include &lt;raspicam/raspicam_cv.h&gt;</span>
-<span style="color: #557799">#include &lt;PiPCA9685/PCA9685.h&gt;</span>
-<span style="color: #557799">#include &lt;unistd.h&gt;</span>
+{{< highlight CPP "linenos=yes" >}}
+#include <iostream>
+#include <opencv2/opencv.hpp>
+#include <raspicam/raspicam_cv.h>
+#include <PiPCA9685/PCA9685.h>
+#include <unistd.h>
 
-<span style="color: #333399; font-weight: bold">int</span> <span style="color: #0066BB; font-weight: bold">main</span>() {
-	<span style="color: #008800; font-weight: bold">const</span> <span style="color: #008800; font-weight: bold">auto</span> WIDTH <span style="color: #333333">=</span> <span style="color: #0000DD; font-weight: bold">320</span>;
-	<span style="color: #008800; font-weight: bold">const</span> <span style="color: #008800; font-weight: bold">auto</span> HEIGHT <span style="color: #333333">=</span> <span style="color: #0000DD; font-weight: bold">240</span>;
-	<span style="color: #008800; font-weight: bold">const</span> <span style="color: #008800; font-weight: bold">auto</span> SPEED <span style="color: #333333">=</span> <span style="color: #0000DD; font-weight: bold">1</span>;
-	<span style="color: #008800; font-weight: bold">const</span> <span style="color: #008800; font-weight: bold">auto</span> STEER <span style="color: #333333">=</span> <span style="color: #0000DD; font-weight: bold">0</span>;
+int main() {
+	const auto WIDTH = 320;
+	const auto HEIGHT = 240;
+	const auto SPEED = 1;
+	const auto STEER = 0;
 	
-	raspicam<span style="color: #333333">::</span>RaspiCam_Cv Camera;
+	raspicam::RaspiCam_Cv Camera;
 	Camera.set(CV_CAP_PROP_FRAME_WIDTH, WIDTH);
 	Camera.set(CV_CAP_PROP_FRAME_HEIGHT, HEIGHT);
-	<span style="color: #008800; font-weight: bold">if</span>(<span style="color: #333333">!</span>Camera.open()) {
-		std<span style="color: #333333">::</span>cerr <span style="color: #333333">&lt;&lt;</span> <span style="background-color: #fff0f0">&quot;Couldn&#39;t open camera.&quot;</span> <span style="color: #333333">&lt;&lt;</span> std<span style="color: #333333">::</span>endl;
-		<span style="color: #008800; font-weight: bold">return</span> <span style="color: #0000DD; font-weight: bold">1</span>;
+	if(!Camera.open()) {
+		std::cerr << "Couldn't open camera." << std::endl;
+		return 1;
 	}
 	
 	PCA9685 pca;
-	pca.set_pwm_freq(<span style="color: #6600EE; font-weight: bold">60.0</span>);
+	pca.set_pwm_freq(60.0);
 	
-	cv<span style="color: #333333">::</span>namedWindow(<span style="background-color: #fff0f0">&quot;Preview&quot;</span>, CV_WINDOW_NORMAL);
+	cv::namedWindow("Preview", CV_WINDOW_NORMAL);
 	
-	cv<span style="color: #333333">::</span>Mat frame;
-	cv<span style="color: #333333">::</span>Mat frame_HSV;
-	cv<span style="color: #333333">::</span>Mat filtered;
+	cv::Mat frame;
+	cv::Mat frame_HSV;
+	cv::Mat filtered;
 	
-	cv<span style="color: #333333">::</span>Scalar minVal(<span style="color: #0000DD; font-weight: bold">0</span>, <span style="color: #0000DD; font-weight: bold">100</span>, <span style="color: #0000DD; font-weight: bold">100</span>);
-	cv<span style="color: #333333">::</span>Scalar maxVal(<span style="color: #0000DD; font-weight: bold">20</span>, <span style="color: #0000DD; font-weight: bold">255</span>, <span style="color: #0000DD; font-weight: bold">255</span>);
+	cv::Scalar minVal(0, 100, 100);
+	cv::Scalar maxVal(20, 255, 255);
 	
-	cv<span style="color: #333333">::</span>Rect left_roi(<span style="color: #0000DD; font-weight: bold">0</span>, <span style="color: #0000DD; font-weight: bold">0</span>, WIDTH<span style="color: #333333">/</span><span style="color: #0000DD; font-weight: bold">3</span>, HEIGHT);
-	cv<span style="color: #333333">::</span>Rect center_roi(WIDTH<span style="color: #333333">/</span><span style="color: #0000DD; font-weight: bold">3</span>, <span style="color: #0000DD; font-weight: bold">0</span>, WIDTH<span style="color: #333333">/</span><span style="color: #0000DD; font-weight: bold">3</span>, HEIGHT);
-	cv<span style="color: #333333">::</span>Rect right_roi(<span style="color: #0000DD; font-weight: bold">2</span><span style="color: #333333">*</span>WIDTH<span style="color: #333333">/</span><span style="color: #0000DD; font-weight: bold">3</span>, <span style="color: #0000DD; font-weight: bold">0</span>, WIDTH<span style="color: #333333">/</span><span style="color: #0000DD; font-weight: bold">3</span>, HEIGHT);
+	cv::Rect left_roi(0, 0, WIDTH/3, HEIGHT);
+	cv::Rect center_roi(WIDTH/3, 0, WIDTH/3, HEIGHT);
+	cv::Rect right_roi(2*WIDTH/3, 0, WIDTH/3, HEIGHT);
 	
-	std<span style="color: #333333">::</span>array<span style="color: #333333">&lt;</span>cv<span style="color: #333333">::</span>Rect, <span style="color: #0000DD; font-weight: bold">3</span><span style="color: #333333">&gt;</span> ROIs <span style="color: #333333">=</span> {left_roi, center_roi, right_roi};
-	std<span style="color: #333333">::</span>array<span style="color: #333333">&lt;</span><span style="color: #333399; font-weight: bold">double</span>, <span style="color: #0000DD; font-weight: bold">3</span><span style="color: #333333">&gt;</span> PWMs <span style="color: #333333">=</span> {<span style="color: #6600EE; font-weight: bold">1.5</span>, <span style="color: #6600EE; font-weight: bold">1.7</span>, <span style="color: #6600EE; font-weight: bold">2.0</span>};
-	std<span style="color: #333333">::</span>array<span style="color: #333333">&lt;</span><span style="color: #333399; font-weight: bold">int</span>, <span style="color: #0000DD; font-weight: bold">3</span><span style="color: #333333">&gt;</span> nonZeroCounts <span style="color: #333333">=</span> {<span style="color: #0000DD; font-weight: bold">0</span>,<span style="color: #0000DD; font-weight: bold">0</span>,<span style="color: #0000DD; font-weight: bold">0</span>};
+	std::array<cv::Rect, 3> ROIs = {left_roi, center_roi, right_roi};
+	std::array<double, 3> PWMs = {1.5, 1.7, 2.0};
+	std::array<int, 3> nonZeroCounts = {0,0,0};
 	
-	pca.set_pwm_ms(SPEED, <span style="color: #6600EE; font-weight: bold">1.7</span>);
-	usleep(<span style="color: #0000DD; font-weight: bold">1&#39;000&#39;000</span>);
-	pca.set_pwm_ms(SPEED, <span style="color: #6600EE; font-weight: bold">1.76</span>);
+	pca.set_pwm_ms(SPEED, 1.7);
+	usleep(1'000'000);
+	pca.set_pwm_ms(SPEED, 1.76);
 	
-	<span style="color: #008800; font-weight: bold">while</span>(Camera.grab() <span style="color: #333333">&amp;&amp;</span> cv<span style="color: #333333">::</span>waitKey(<span style="color: #0000DD; font-weight: bold">30</span>) <span style="color: #333333">!=</span> <span style="color: #0044DD">&#39; &#39;</span>) {
+	while(Camera.grab() && cv::waitKey(30) != ' ') {
 		Camera.retrieve(frame);
 		
-		cv<span style="color: #333333">::</span>cvtColor(frame, frame_HSV, cv<span style="color: #333333">::</span>COLOR_BGR2HSV);
+		cv::cvtColor(frame, frame_HSV, cv::COLOR_BGR2HSV);
 		
-		cv<span style="color: #333333">::</span>inRange(frame_HSV, minVal, maxVal, filtered);
+		cv::inRange(frame_HSV, minVal, maxVal, filtered);
 		
-		<span style="color: #008800; font-weight: bold">auto</span> countFunc <span style="color: #333333">=</span> [<span style="color: #333333">&amp;</span>filtered](cv<span style="color: #333333">::</span>Rect <span style="color: #333333">&amp;</span>roi) {
-			<span style="color: #008800; font-weight: bold">return</span> cv<span style="color: #333333">::</span>countNonZero(filtered(roi));
+		auto countFunc = [&filtered](cv::Rect &roi) {
+			return cv::countNonZero(filtered(roi));
 		};
 		
-		std<span style="color: #333333">::</span>transform(ROIs.begin(), ROIs.end(), nonZeroCounts.begin(), countFunc);
+		std::transform(ROIs.begin(), ROIs.end(), nonZeroCounts.begin(), countFunc);
 		
-		<span style="color: #008800; font-weight: bold">auto</span> minIter <span style="color: #333333">=</span> std<span style="color: #333333">::</span>min_element(nonZeroCounts.begin(), nonZeroCounts.end());
-		<span style="color: #008800; font-weight: bold">auto</span> idx <span style="color: #333333">=</span> std<span style="color: #333333">::</span>distance(nonZeroCounts.begin(), minIter);
+		auto minIter = std::min_element(nonZeroCounts.begin(), nonZeroCounts.end());
+		auto idx = std::distance(nonZeroCounts.begin(), minIter);
 		
-		cv<span style="color: #333333">::</span>rectangle(frame, ROIs[idx], cv<span style="color: #333333">::</span>Scalar(<span style="color: #0000DD; font-weight: bold">0</span>,<span style="color: #0000DD; font-weight: bold">255</span>,<span style="color: #0000DD; font-weight: bold">0</span>), <span style="color: #0000DD; font-weight: bold">3</span>);
+		cv::rectangle(frame, ROIs[idx], cv::Scalar(0,255,0), 3);
 		
 		pca.set_pwm_ms(STEER, PWMs[idx]);							
 		
-		cv<span style="color: #333333">::</span>imshow(<span style="background-color: #fff0f0">&quot;Preview&quot;</span>, frame);
+		cv::imshow("Preview", frame);
 	}
 	
-	pca.set_pwm_ms(SPEED, <span style="color: #6600EE; font-weight: bold">1.7</span>);
-	pca.set_pwm_ms(STEER, <span style="color: #6600EE; font-weight: bold">1.7</span>);
+	pca.set_pwm_ms(SPEED, 1.7);
+	pca.set_pwm_ms(STEER, 1.7);
 
-	<span style="color: #008800; font-weight: bold">return</span> <span style="color: #0000DD; font-weight: bold">0</span>;
+	return 0;
 }
-</pre></td></tr></table></div>
+{{< / highlight >}}
 
 And now for a quick section-by-section break down of what this code is doing.
-            
-<!-- HTML generated using hilite.me --><div style="background: #ffffff; overflow:auto;width:auto;border:solid gray;border-width:.1em .1em .1em .8em;padding:.2em .6em;"><pre style="margin: 0; line-height: 125%"><span style="color: #008800; font-weight: bold">const</span> <span style="color: #008800; font-weight: bold">auto</span> WIDTH <span style="color: #333333">=</span> <span style="color: #0000DD; font-weight: bold">320</span>;
-<span style="color: #008800; font-weight: bold">const</span> <span style="color: #008800; font-weight: bold">auto</span> HEIGHT <span style="color: #333333">=</span> <span style="color: #0000DD; font-weight: bold">240</span>;
-<span style="color: #008800; font-weight: bold">const</span> <span style="color: #008800; font-weight: bold">auto</span> SPEED <span style="color: #333333">=</span> <span style="color: #0000DD; font-weight: bold">1</span>;
-<span style="color: #008800; font-weight: bold">const</span> <span style="color: #008800; font-weight: bold">auto</span> STEER <span style="color: #333333">=</span> <span style="color: #0000DD; font-weight: bold">0</span>;
+
+{{< highlight CPP "linenos=yes" >}}
+const auto WIDTH = 320;
+const auto HEIGHT = 240;
+const auto SPEED = 1;
+const auto STEER = 0;
 	
-raspicam<span style="color: #333333">::</span>RaspiCam_Cv Camera;
+raspicam::RaspiCam_Cv Camera;
 Camera.set(CV_CAP_PROP_FRAME_WIDTH, WIDTH);
 Camera.set(CV_CAP_PROP_FRAME_HEIGHT, HEIGHT);
-<span style="color: #008800; font-weight: bold">if</span>(<span style="color: #333333">!</span>Camera.open()) {
-	std<span style="color: #333333">::</span>cerr <span style="color: #333333">&lt;&lt;</span> <span style="background-color: #fff0f0">&quot;Couldn&#39;t open camera.&quot;</span> <span style="color: #333333">&lt;&lt;</span> std<span style="color: #333333">::</span>endl;
-	<span style="color: #008800; font-weight: bold">return</span> <span style="color: #0000DD; font-weight: bold">1</span>;
+if(!Camera.open()) {
+	std::cerr << "Couldn't open camera." << std::endl;
+	return 1;
 }
 	
 PCA9685 pca;
-pca.set_pwm_freq(<span style="color: #6600EE; font-weight: bold">60.0</span>);
+pca.set_pwm_freq(60.0);
 	
-cv<span style="color: #333333">::</span>namedWindow(<span style="background-color: #fff0f0">&quot;Preview&quot;</span>, CV_WINDOW_NORMAL);
+cv::namedWindow("Preview", CV_WINDOW_NORMAL);
 	
-cv<span style="color: #333333">::</span>Mat frame;
-cv<span style="color: #333333">::</span>Mat frame_HSV;
-cv<span style="color: #333333">::</span>Mat filtered;
+cv::Mat frame;
+cv::Mat frame_HSV;
+cv::Mat filtered;
 	
-cv<span style="color: #333333">::</span>Scalar minVal(<span style="color: #0000DD; font-weight: bold">0</span>, <span style="color: #0000DD; font-weight: bold">100</span>, <span style="color: #0000DD; font-weight: bold">100</span>);
-cv<span style="color: #333333">::</span>Scalar maxVal(<span style="color: #0000DD; font-weight: bold">20</span>, <span style="color: #0000DD; font-weight: bold">255</span>, <span style="color: #0000DD; font-weight: bold">255</span>);
+cv::Scalar minVal(0, 100, 100);
+cv::Scalar maxVal(20, 255, 255);
 	
-cv<span style="color: #333333">::</span>Rect left_roi(<span style="color: #0000DD; font-weight: bold">0</span>, <span style="color: #0000DD; font-weight: bold">0</span>, WIDTH<span style="color: #333333">/</span><span style="color: #0000DD; font-weight: bold">3</span>, HEIGHT);
-cv<span style="color: #333333">::</span>Rect center_roi(WIDTH<span style="color: #333333">/</span><span style="color: #0000DD; font-weight: bold">3</span>, <span style="color: #0000DD; font-weight: bold">0</span>, WIDTH<span style="color: #333333">/</span><span style="color: #0000DD; font-weight: bold">3</span>, HEIGHT);
-cv<span style="color: #333333">::</span>Rect right_roi(<span style="color: #0000DD; font-weight: bold">2</span><span style="color: #333333">*</span>WIDTH<span style="color: #333333">/</span><span style="color: #0000DD; font-weight: bold">3</span>, <span style="color: #0000DD; font-weight: bold">0</span>, WIDTH<span style="color: #333333">/</span><span style="color: #0000DD; font-weight: bold">3</span>, HEIGHT);
+cv::Rect left_roi(0, 0, WIDTH/3, HEIGHT);
+cv::Rect center_roi(WIDTH/3, 0, WIDTH/3, HEIGHT);
+cv::Rect right_roi(2*WIDTH/3, 0, WIDTH/3, HEIGHT);
 	
-std<span style="color: #333333">::</span>array<span style="color: #333333">&lt;</span>cv<span style="color: #333333">::</span>Rect, <span style="color: #0000DD; font-weight: bold">3</span><span style="color: #333333">&gt;</span> ROIs <span style="color: #333333">=</span> {left_roi, center_roi, right_roi};
-std<span style="color: #333333">::</span>array<span style="color: #333333">&lt;</span><span style="color: #333399; font-weight: bold">double</span>, <span style="color: #0000DD; font-weight: bold">3</span><span style="color: #333333">&gt;</span> PWMs <span style="color: #333333">=</span> {<span style="color: #6600EE; font-weight: bold">1.5</span>, <span style="color: #6600EE; font-weight: bold">1.7</span>, <span style="color: #6600EE; font-weight: bold">2.0</span>};
-std<span style="color: #333333">::</span>array<span style="color: #333333">&lt;</span><span style="color: #333399; font-weight: bold">int</span>, <span style="color: #0000DD; font-weight: bold">3</span><span style="color: #333333">&gt;</span> nonZeroCounts <span style="color: #333333">=</span> {<span style="color: #0000DD; font-weight: bold">0</span>,<span style="color: #0000DD; font-weight: bold">0</span>,<span style="color: #0000DD; font-weight: bold">0</span>};
-</pre></div>
+std::array<cv::Rect, 3> ROIs = {left_roi, center_roi, right_roi};
+std::array<double, 3> PWMs = {1.5, 1.7, 2.0};
+std::array<int, 3> nonZeroCounts = {0,0,0};
+{{< / highlight >}}
 
 This first section simply defines some useful constants, initializes our camera and PCA9685 (the PWM hat), and declares the arrays we'll be working with.
 
-<!-- HTML generated using hilite.me --><div style="background: #ffffff; overflow:auto;width:auto;border:solid gray;border-width:.1em .1em .1em .8em;padding:.2em .6em;"><pre style="margin: 0; line-height: 125%">pca.set_pwm_ms(SPEED, <span style="color: #6600EE; font-weight: bold">1.7</span>);
-usleep(<span style="color: #0000DD; font-weight: bold">1&#39;000&#39;000</span>);
-pca.set_pwm_ms(SPEED, <span style="color: #6600EE; font-weight: bold">1.76</span>);
-</pre></div>
+{{< highlight CPP "linenos=yes" >}}
+pca.set_pwm_ms(SPEED, 1.7);
+usleep(1'000'000);
+pca.set_pwm_ms(SPEED, 1.76);
+{{< / highlight >}}
 
 This starts the car driving forward at a constant speed. PWM is a digital signal that communicates a "duty cycle". We can treat this like a percentage control over the car's throttle. On the wire, PWM is a square wave where the on time varies from 1.0ms to 2.0ms. The Turnigy truck maps this range as follows.
 
@@ -341,41 +258,46 @@ As you can see in the code, I'm only setting the forward speed to 1.76, or just 
 
 The 1 second delay gives the car's ESC time to initialize. It waits for a certain length of neutral (1.7ms) signal before it enables the vehicle.
 
-<!-- HTML generated using hilite.me --><div style="background: #ffffff; overflow:auto;width:auto;border:solid gray;border-width:.1em .1em .1em .8em;padding:.2em .6em;"><pre style="margin: 0; line-height: 125%"><span style="color: #008800; font-weight: bold">while</span>(Camera.grab() <span style="color: #333333">&amp;&amp;</span> cv<span style="color: #333333">::</span>waitKey(<span style="color: #0000DD; font-weight: bold">30</span>) <span style="color: #333333">!=</span> <span style="color: #0044DD">&#39; &#39;</span>) {
+{{< highlight CPP "linenos=yes" >}}
+while(Camera.grab() && cv::waitKey(30) != ' ') {
 	Camera.retrieve(frame);						
-	<span style="color: #888888">// ...</span>
-	cv<span style="color: #333333">::</span>imshow(<span style="background-color: #fff0f0">&quot;Preview&quot;</span>, frame);
+	// ...
+	cv::imshow("Preview", frame);
 }
-</pre></div>
+{{< / highlight >}}
 
 Here is our main loop, without all of the image processing parts for now. Every iteration, we grab a new image from the camera, check if the user has pressed the spacebar to stop the app, do some processing on the image, and then show it in the preview window.
 
-<!-- HTML generated using hilite.me --><div style="background: #ffffff; overflow:auto;width:auto;border:solid gray;border-width:.1em .1em .1em .8em;padding:.2em .6em;"><pre style="margin: 0; line-height: 125%">cv<span style="color: #333333">::</span>cvtColor(frame, frame_HSV, cv<span style="color: #333333">::</span>COLOR_BGR2HSV);
-</pre></div>
+{{< highlight CPP >}}
+cv::cvtColor(frame, frame_HSV, cv::COLOR_BGR2HSV);
+{{< / highlight >}}
 
 This line converts the image from the BGR colorspace to the HSV colorspace. HSV will make it easier for us to do simple thresholding to highlight all of the orange cones in the track.
 
-<!-- HTML generated using hilite.me --><div style="background: #ffffff; overflow:auto;width:auto;border:solid gray;border-width:.1em .1em .1em .8em;padding:.2em .6em;"><pre style="margin: 0; line-height: 125%">cv<span style="color: #333333">::</span>inRange(frame_HSV, minVal, maxVal, filtered);
-</pre></div>
+{{< highlight CPP >}}
+cv::inRange(frame_HSV, minVal, maxVal, filtered);
+{{< / highlight >}}
 
 And this line does the actual thresholding by filling the "filtered" image with 255s where the HSV color was in the range given, and 0 where the color was out of that range.
 
-<!-- HTML generated using hilite.me --><div style="background: #ffffff; overflow:auto;width:auto;border:solid gray;border-width:.1em .1em .1em .8em;padding:.2em .6em;"><pre style="margin: 0; line-height: 125%"><span style="color: #008800; font-weight: bold">auto</span> countFunc <span style="color: #333333">=</span> [<span style="color: #333333">&amp;</span>filtered](cv<span style="color: #333333">::</span>Rect <span style="color: #333333">&amp;</span>roi) {
-	<span style="color: #008800; font-weight: bold">return</span> cv<span style="color: #333333">::</span>countNonZero(filtered(roi));
+{{< highlight CPP "linenos=yes" >}}
+auto countFunc = [&filtered](cv::Rect &roi) {
+	return cv::countNonZero(filtered(roi));
 };
 		
-std<span style="color: #333333">::</span>transform(ROIs.begin(), ROIs.end(), nonZeroCounts.begin(), countFunc);
-</pre></div>
+std::transform(ROIs.begin(), ROIs.end(), nonZeroCounts.begin(), countFunc);
+{{< / highlight >}}
 
 Here, we define a lambda function which calls countNonZero on the given region of interest (ROI) of the filtered image. Then we use transform to fill the nonZeroCounts array with the number of non-zero pixels in each ROI.
 
-<!-- HTML generated using hilite.me --><div style="background: #ffffff; overflow:auto;width:auto;border:solid gray;border-width:.1em .1em .1em .8em;padding:.2em .6em;"><pre style="margin: 0; line-height: 125%"><span style="color: #008800; font-weight: bold">auto</span> minIter <span style="color: #333333">=</span> std<span style="color: #333333">::</span>min_element(nonZeroCounts.begin(), nonZeroCounts.end());
-<span style="color: #008800; font-weight: bold">auto</span> idx <span style="color: #333333">=</span> std<span style="color: #333333">::</span>distance(nonZeroCounts.begin(), minIter);
-		
-cv<span style="color: #333333">::</span>rectangle(frame, ROIs[idx], cv<span style="color: #333333">::</span>Scalar(<span style="color: #0000DD; font-weight: bold">0</span>,<span style="color: #0000DD; font-weight: bold">255</span>,<span style="color: #0000DD; font-weight: bold">0</span>), <span style="color: #0000DD; font-weight: bold">3</span>);
-		
+{{< highlight CPP "linenos=yes" >}}
+auto minIter = std::min_element(nonZeroCounts.begin(), nonZeroCounts.end());
+auto idx = std::distance(nonZeroCounts.begin(), minIter);
+
+cv::rectangle(frame, ROIs[idx], cv::Scalar(0,255,0), 3);
+
 pca.set_pwm_ms(STEER, PWMs[idx]);
-</pre></div>
+{{< / highlight >}}
 
 Now that we have the counts for each ROI, we can get the index of the smallest count using min_element and distance. The next two lines draw the rectangle back on the original image for previewing and set the steering PWM to the value corresponding to the direction we want to turn towards.
 
@@ -387,9 +309,10 @@ Similarly to the drive motor, here our PWM values map as follows:
 
 2.0 -> Full right
 
-<!-- HTML generated using hilite.me --><div style="background: #ffffff; overflow:auto;width:auto;border:solid gray;border-width:.1em .1em .1em .8em;padding:.2em .6em;"><pre style="margin: 0; line-height: 125%">pca.set_pwm_ms(SPEED, <span style="color: #6600EE; font-weight: bold">1.7</span>);
-pca.set_pwm_ms(STEER, <span style="color: #6600EE; font-weight: bold">1.7</span>);
-</pre></div>
+{{< highlight CPP >}}
+pca.set_pwm_ms(SPEED, 1.7);
+pca.set_pwm_ms(STEER, 1.7);
+{{< / highlight >}}
 
 Finally, after the loop, we reset the PWM hat to stop the drive motor and set the steering servo to the straight ahead, neutral position. This just makes sure our car doesn't keep running away from us when we stop the app.
 
@@ -399,151 +322,79 @@ And that's all the code it takes to get this car driving around the demo track i
 
 And here's the entire Python version of the code.
 
-<!-- HTML generated using hilite.me --><div style="background: #ffffff; overflow:auto;width:auto;border:solid gray;border-width:.1em .1em .1em .8em;padding:.2em .6em;"><table><tr><td><pre style="margin: 0; line-height: 125%"> 1
- 2
- 3
- 4
- 5
- 6
- 7
- 8
- 9
-10
-11
-12
-13
-14
-15
-16
-17
-18
-19
-20
-21
-22
-23
-24
-25
-26
-27
-28
-29
-30
-31
-32
-33
-34
-35
-36
-37
-38
-39
-40
-41
-42
-43
-44
-45
-46
-47
-48
-49
-50
-51
-52
-53
-54
-55
-56
-57
-58
-59
-60
-61
-62
-63
-64
-65
-66
-67
-68
-69
-70
-71
-72
-73
-74</pre></td><td><pre style="margin: 0; line-height: 125%"><span style="color: #008800; font-weight: bold">from</span> <span style="color: #0e84b5; font-weight: bold">picamera</span> <span style="color: #008800; font-weight: bold">import</span> PiCamera
-<span style="color: #008800; font-weight: bold">from</span> <span style="color: #0e84b5; font-weight: bold">picamera.array</span> <span style="color: #008800; font-weight: bold">import</span> PiRGBArray
-<span style="color: #008800; font-weight: bold">import</span> <span style="color: #0e84b5; font-weight: bold">time</span>
-<span style="color: #008800; font-weight: bold">import</span> <span style="color: #0e84b5; font-weight: bold">cv2</span>
-<span style="color: #008800; font-weight: bold">from</span> <span style="color: #0e84b5; font-weight: bold">PiPCA9685.PiPCA9685</span> <span style="color: #008800; font-weight: bold">import</span> PCA9685
-<span style="color: #008800; font-weight: bold">import</span> <span style="color: #0e84b5; font-weight: bold">numpy</span> <span style="color: #008800; font-weight: bold">as</span> <span style="color: #0e84b5; font-weight: bold">np</span>
+{{< highlight Python "linenos=yes" >}}
+from picamera import PiCamera
+from picamera.array import PiRGBArray
+import time
+import cv2
+from PiPCA9685.PiPCA9685 import PCA9685
+import numpy as np
 
-<span style="color: #008800; font-weight: bold">def</span> <span style="color: #0066BB; font-weight: bold">main</span>():
-    WIDTH <span style="color: #333333">=</span> <span style="color: #0000DD; font-weight: bold">320</span>
-    HEIGHT <span style="color: #333333">=</span> <span style="color: #0000DD; font-weight: bold">240</span>
-    STEER <span style="color: #333333">=</span> <span style="color: #0000DD; font-weight: bold">0</span>
-    SPEED <span style="color: #333333">=</span> <span style="color: #0000DD; font-weight: bold">1</span>
+def main():
+    WIDTH = 320
+    HEIGHT = 240
+    STEER = 0
+    SPEED = 1
     
-    camera <span style="color: #333333">=</span> PiCamera()
-    camera<span style="color: #333333">.</span>resolution <span style="color: #333333">=</span> (WIDTH,HEIGHT)
-    rawCapture <span style="color: #333333">=</span> PiRGBArray(camera, size<span style="color: #333333">=</span>(WIDTH,HEIGHT))
+    camera = PiCamera()
+    camera.resolution = (WIDTH,HEIGHT)
+    rawCapture = PiRGBArray(camera, size=(WIDTH,HEIGHT))
 
-    <span style="color: #888888"># camera warmp up time</span>
-    time<span style="color: #333333">.</span>sleep(<span style="color: #6600EE; font-weight: bold">0.1</span>)
+    # camera warmp up time
+    time.sleep(0.1)
 
-    pca <span style="color: #333333">=</span> PCA9685()
-    pca<span style="color: #333333">.</span>set_pwm_freq(<span style="color: #0000DD; font-weight: bold">60</span>)
+    pca = PCA9685()
+    pca.set_pwm_freq(60)
 
-    cv2<span style="color: #333333">.</span>namedWindow(<span style="background-color: #fff0f0">&#39;Preview&#39;</span>, cv2<span style="color: #333333">.</span>WINDOW_NORMAL)
+    cv2.namedWindow('Preview', cv2.WINDOW_NORMAL)
 
-    minVal <span style="color: #333333">=</span> (<span style="color: #0000DD; font-weight: bold">0</span>, <span style="color: #0000DD; font-weight: bold">100</span>, <span style="color: #0000DD; font-weight: bold">100</span>)
-    maxVal <span style="color: #333333">=</span> (<span style="color: #0000DD; font-weight: bold">20</span>, <span style="color: #0000DD; font-weight: bold">255</span>, <span style="color: #0000DD; font-weight: bold">255</span>)
+    minVal = (0, 100, 100)
+    maxVal = (20, 255, 255)
 
-    ROIs <span style="color: #333333">=</span> [ [(<span style="color: #0000DD; font-weight: bold">0</span>,WIDTH<span style="color: #333333">//</span><span style="color: #0000DD; font-weight: bold">3</span>), (<span style="color: #0000DD; font-weight: bold">0</span>,HEIGHT)],
-             [(WIDTH<span style="color: #333333">//</span><span style="color: #0000DD; font-weight: bold">3</span>, <span style="color: #0000DD; font-weight: bold">2</span><span style="color: #333333">*</span>WIDTH<span style="color: #333333">//</span><span style="color: #0000DD; font-weight: bold">3</span>), (<span style="color: #0000DD; font-weight: bold">0</span>, HEIGHT)],
-             [(<span style="color: #0000DD; font-weight: bold">2</span><span style="color: #333333">*</span>WIDTH<span style="color: #333333">//</span><span style="color: #0000DD; font-weight: bold">3</span>, WIDTH), (<span style="color: #0000DD; font-weight: bold">0</span>, HEIGHT)] ]
+    ROIs = [ [(0,WIDTH//3), (0,HEIGHT)],
+             [(WIDTH//3, 2*WIDTH//3), (0, HEIGHT)],
+             [(2*WIDTH//3, WIDTH), (0, HEIGHT)] ]
 
-    PWMs <span style="color: #333333">=</span> [<span style="color: #6600EE; font-weight: bold">1.5</span>, <span style="color: #6600EE; font-weight: bold">1.7</span>, <span style="color: #6600EE; font-weight: bold">2.0</span>]
+    PWMs = [1.5, 1.7, 2.0]
 
-    pca<span style="color: #333333">.</span>set_pwm_ms(SPEED, <span style="color: #6600EE; font-weight: bold">1.7</span>)
-    time<span style="color: #333333">.</span>sleep(<span style="color: #0000DD; font-weight: bold">1</span>)
-    pca<span style="color: #333333">.</span>set_pwm_ms(SPEED, <span style="color: #6600EE; font-weight: bold">1.76</span>)
+    pca.set_pwm_ms(SPEED, 1.7)
+    time.sleep(1)
+    pca.set_pwm_ms(SPEED, 1.76)
 
-    <span style="color: #008800; font-weight: bold">for</span> capture <span style="color: #000000; font-weight: bold">in</span> camera<span style="color: #333333">.</span>capture_continuous(rawCapture, <span style="color: #007020">format</span><span style="color: #333333">=</span><span style="background-color: #fff0f0">&#39;bgr&#39;</span>, use_video_port<span style="color: #333333">=</span><span style="color: #008800; font-weight: bold">True</span>):
-        frame <span style="color: #333333">=</span> capture<span style="color: #333333">.</span>array
+    for capture in camera.capture_continuous(rawCapture, format='bgr', use_video_port=True):
+        frame = capture.array
 
-        frame_HSV <span style="color: #333333">=</span> cv2<span style="color: #333333">.</span>cvtColor(frame, cv2<span style="color: #333333">.</span>COLOR_BGR2HSV)
+        frame_HSV = cv2.cvtColor(frame, cv2.COLOR_BGR2HSV)
 
-        filtered <span style="color: #333333">=</span> cv2<span style="color: #333333">.</span>inRange(frame_HSV, minVal, maxVal)
+        filtered = cv2.inRange(frame_HSV, minVal, maxVal)
 
-        minCount <span style="color: #333333">=</span> <span style="color: #007020">float</span>(<span style="background-color: #fff0f0">&#39;inf&#39;</span>)
-        minIdx <span style="color: #333333">=</span> <span style="color: #0000DD; font-weight: bold">0</span>
+        minCount = float('inf')
+        minIdx = 0
         
-        <span style="color: #008800; font-weight: bold">for</span> i <span style="color: #000000; font-weight: bold">in</span> <span style="color: #007020">range</span>(<span style="color: #007020">len</span>(ROIs)):
-            ROI <span style="color: #333333">=</span> ROIs[i]
-            count <span style="color: #333333">=</span> cv2<span style="color: #333333">.</span>countNonZero(filtered[ROI[<span style="color: #0000DD; font-weight: bold">1</span>][<span style="color: #0000DD; font-weight: bold">0</span>]:ROI[<span style="color: #0000DD; font-weight: bold">1</span>][<span style="color: #0000DD; font-weight: bold">1</span>],ROI[<span style="color: #0000DD; font-weight: bold">0</span>][<span style="color: #0000DD; font-weight: bold">0</span>]:ROI[<span style="color: #0000DD; font-weight: bold">0</span>][<span style="color: #0000DD; font-weight: bold">1</span>]])
-            <span style="color: #008800; font-weight: bold">if</span> count <span style="color: #333333">&lt;</span> minCount:
-                minCount <span style="color: #333333">=</span> count
-                minIdx <span style="color: #333333">=</span> i
+        for i in range(len(ROIs)):
+            ROI = ROIs[i]
+            count = cv2.countNonZero(filtered[ROI[1][0]:ROI[1][1],ROI[0][0]:ROI[0][1]])
+            if count < minCount:
+                minCount = count
+                minIdx = i
 
-        minROI <span style="color: #333333">=</span> ROIs[minIdx]
+        minROI = ROIs[minIdx]
 
-        cv2<span style="color: #333333">.</span>rectangle(frame, (minROI[<span style="color: #0000DD; font-weight: bold">0</span>][<span style="color: #0000DD; font-weight: bold">0</span>],minROI[<span style="color: #0000DD; font-weight: bold">1</span>][<span style="color: #0000DD; font-weight: bold">0</span>]), (minROI[<span style="color: #0000DD; font-weight: bold">0</span>][<span style="color: #0000DD; font-weight: bold">1</span>],minROI[<span style="color: #0000DD; font-weight: bold">1</span>][<span style="color: #0000DD; font-weight: bold">1</span>]), color<span style="color: #333333">=</span>(<span style="color: #0000DD; font-weight: bold">0</span>, <span style="color: #0000DD; font-weight: bold">255</span>, <span style="color: #0000DD; font-weight: bold">0</span>), thickness<span style="color: #333333">=</span><span style="color: #0000DD; font-weight: bold">3</span>)
+        cv2.rectangle(frame, (minROI[0][0],minROI[1][0]), (minROI[0][1],minROI[1][1]), color=(0, 255, 0), thickness=3)
 
-        pca<span style="color: #333333">.</span>set_pwm_ms(STEER, PWMs[minIdx])
+        pca.set_pwm_ms(STEER, PWMs[minIdx])
 
-        cv2<span style="color: #333333">.</span>imshow(<span style="background-color: #fff0f0">&#39;Preview&#39;</span>, frame)
+        cv2.imshow('Preview', frame)
 
-        rawCapture<span style="color: #333333">.</span>truncate(<span style="color: #0000DD; font-weight: bold">0</span>)
+        rawCapture.truncate(0)
 
-        <span style="color: #008800; font-weight: bold">if</span> cv2<span style="color: #333333">.</span>waitKey(<span style="color: #0000DD; font-weight: bold">10</span>) <span style="color: #333333">==</span> <span style="color: #007020">ord</span>(<span style="background-color: #fff0f0">&#39; &#39;</span>):
-            <span style="color: #008800; font-weight: bold">break</span>
+        if cv2.waitKey(10) == ord(' '):
+            break
 
-    pca<span style="color: #333333">.</span>set_pwm_ms(SPEED, <span style="color: #6600EE; font-weight: bold">1.7</span>)
-    pca<span style="color: #333333">.</span>set_pwm_ms(STEER, <span style="color: #6600EE; font-weight: bold">1.7</span>)
-    cv2<span style="color: #333333">.</span>destroyAllWindows()
+    pca.set_pwm_ms(SPEED, 1.7)
+    pca.set_pwm_ms(STEER, 1.7)
+    cv2.destroyAllWindows()
 
-<span style="color: #008800; font-weight: bold">if</span> __name__ <span style="color: #333333">==</span> <span style="background-color: #fff0f0">&#39;__main__&#39;</span>:
+if __name__ == '__main__':
     main()
-</pre></td></tr></table></div>
+{{< / highlight >}}
