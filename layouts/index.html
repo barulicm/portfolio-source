@@ -28,7 +28,7 @@
       <div class="grid-col grid-col--5"></div>
       <!-- items -->
       
-      {{ range (.Pages.ByParam "sortYear").Reverse }}
+      {{ range (.Site.RegularPages.ByParam "sortYear").Reverse }}
       <div class="grid-item">
         {{ if .Params.destination }}
         <a href="{{ .Params.destination }}">
